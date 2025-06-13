@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surpresinha</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #6a0dad, #9b30ff);
+      font-family: Arial, sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 10px;
+      font-size: 2.5em;
+    }
+
+    #container {
+      max-width: 90vw;
+      max-height: 70vh;
+    }
+
+    img {
+      width: 300px;
+      height: 300px;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    #texto {
+      margin-top: 20px;
+      font-size: 1.2em;
+      padding: 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Surpresinha 💜</h1>
+  <div id="container">
+    <img id="imagem" src="foto1.jpg" alt="Foto do casal">
+    <p id="texto"></p>
+  </div>
+
+  <script>
+    const textos = [
+      "Eu quero te agradecer muito por tudo que tu já fez por mim, eu sou muito grato de verdade por todas as vezes que você me apoiou, que tirou um sorriso do meu rosto, mesmo em momentos de dificuldades você me ajudou e MUITO.",
+      "Ter conhecido você foi uma das melhores coisas da minha vida, na verdade foi a segunda de maneira mais específica.",
+      "Pois a top 1 melhor coisa foi algo que você me ajudou, que foi conhecer Cristo.",
+      "Você me apresentou uma família incrível, pessoas maravilhosas e sou muitoooooooo grato por isso.",
+      "Isso aqui não é apenas um texto te agradecendo, mas também pra demonstrar que eu me importo muito com você e que sempre vou estar do seu lado independente da situação, dos mais difíceis aos mais fáceis.",
+      "Eu vou lhe esperar o tempo que for preciso.",
+      "Com você meus dias ficam mais divertidos, mais coloridos, mais marcantes e memoráveis.",
+      "Você sempre vai ter um espaço na minha conversa com Ele, pois eu espero muito que o propósito que Ele me deu seja com VOCÊ.",
+      "Eu espero muito que você seja a pessoa que vai estar no altar do meu lado, eu espero que você seja a pessoa que eu irei compartilhar as refeições, a pessoa que montará uma família comigo.",
+      "Meu maior sonho é conquistar muitas coisas com você. Muito obrigado e você sempre terá um espaço no meu coração depois de Cristo. <3"
+    ];
+
+    const imagens = [
+      "foto1.jpg",
+      "foto2.jpg",
+      "foto3.jpg",
+      "foto4.jpg",
+      "foto5.jpg",
+      "foto6.jpg",
+      "foto7.jpg",
+      "foto8.jpg",
+      "foto9.jpg",
+      "foto10.jpg"
+    ];
+
+    let index = 0;
+    const textoEl = document.getElementById("texto");
+    const imagemEl = document.getElementById("imagem");
+
+    function trocarSlide() {
+      textoEl.textContent = textos[index];
+      imagemEl.src = imagens[index];
+      index = (index + 1) % textos.length;
+    }
+
+    trocarSlide(); // Mostra o primeiro
+    setInterval(trocarSlide, 5000); // Troca a cada 5 segundos
+  </script>
+</body>
+</html>
