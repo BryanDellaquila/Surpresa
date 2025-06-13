@@ -5,54 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Surpresinha</title>
   <style>
-    .fade {
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-.visible {
-  opacity: 1;
-}
-
-    .fade {
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-.visible {
-  opacity: 1;
-}
-
-    .heart {
-  position: fixed;
-  top: -50px;
-  font-size: 24px;
-  animation: fall 5s linear infinite;
-  color: pink;
-  pointer-events: none;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(110vh);
-    opacity: 0;
-  }
-}
-    button {
-  padding: 10px 20px;
-  font-size: 1.2em;
-  background-color: #ffffff;
-  color: #6a0dad;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
     body {
       margin: 0;
       padding: 0;
@@ -76,6 +28,7 @@ button:hover {
     #container {
       max-width: 90vw;
       max-height: 70vh;
+      display: none;
     }
 
     img {
@@ -91,20 +44,58 @@ button:hover {
       font-size: 1.2em;
       padding: 0 20px;
     }
+
+    #botao {
+      background-color: white;
+      color: #6a0dad;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2em;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    #botao:hover {
+      background-color: #e6d5f7;
+    }
+
+    .fade {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .visible {
+      opacity: 1;
+    }
+
+    .heart {
+      position: fixed;
+      top: 0;
+      animation: fall 5s linear forwards;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
   <h1>Surpresinha 💜</h1>
 
-  <!-- Botão que inicia a apresentação -->
-  <button id="botaoComecar" onclick="iniciar()">Começar</button>
+  <button onclick="iniciar()" id="botao">Começar</button>
 
-  <!-- Container que fica escondido até clicar no botão -->
-  <div id="container" style="display: none;">
+  <div id="container">
     <img id="imagem" class="fade" src="foto1.jpg" alt="Foto do casal">
     <p id="texto" class="fade"></p>
-
   </div>
+
+  <audio id="musica" src="musica.mp3" loop></audio>
 
   <script>
     const textos = [
@@ -117,7 +108,8 @@ button:hover {
       "Com você meus dias ficam mais divertidos, mais coloridos, mais marcantes e memoráveis.",
       "Você sempre vai ter um espaço na minha conversa com Ele, pois eu espero muito que o propósito que Ele me deu seja com VOCÊ.",
       "Eu espero muito que você seja a pessoa que vai estar no altar do meu lado, eu espero que você seja a pessoa que eu irei compartilhar as refeições, a pessoa que montará uma família comigo.",
-      "Meu maior sonho é conquistar muitas coisas com você. Muito obrigado e você sempre terá um espaço no meu coração depois de Cristo. Feliz dia dos namorados, minha lindissima namorada. Eu AMOO amar alguem como você"
+      "Meu maior sonho é conquistar muitas coisas com você. Muito obrigado e você sempre terá um espaço no meu coração depois de Cristo. <3",
+      "Feliz dia dos namorados, Eu AMOO amar alguém como você 🤍💜"
     ];
 
     const imagens = [
@@ -130,51 +122,55 @@ button:hover {
       "foto7.jpg",
       "foto8.jpg",
       "foto9.jpg",
-      "foto10.jpg"
+      "foto10.jpg",
+      "fotoFinal.jpg" // use a imagem final aqui
     ];
 
     let index = 0;
+    let intervalId;
+
     const textoEl = document.getElementById("texto");
     const imagemEl = document.getElementById("imagem");
+    const botao = document.getElementById("botao");
     const container = document.getElementById("container");
-    const botao = document.getElementById("botaoComecar");
 
     function trocarSlide() {
-  // Remove classe de visibilidade (começa fade-out)
-  imagemEl.classList.remove("visible");
-  textoEl.classList.remove("visible");
+      imagemEl.classList.remove("visible");
+      textoEl.classList.remove("visible");
 
-  // Espera o fade-out terminar
-  setTimeout(() => {
-    textoEl.textContent = textos[index];
-    imagemEl.src = imagens[index];
+      setTimeout(() => {
+        textoEl.textContent = textos[index];
+        imagemEl.src = imagens[index];
 
-    // Aplica fade-in
-    imagemEl.classList.add("visible");
-    textoEl.classList.add("visible");
+        imagemEl.classList.add("visible");
+        textoEl.classList.add("visible");
 
-    index = (index + 1) % textos.length;
-  }, 500); // tempo do fade-out
-}
-
+        if (index === textos.length - 1) {
+          clearInterval(intervalId); // para na última
+        } else {
+          index++;
+        }
+      }, 500); // tempo do fade-out
+    }
 
     function iniciar() {
+      botao.style.display = "none";
+      container.style.display = "block";
       document.getElementById("musica").play();
-      botao.style.display = "none"; // esconde botão
-      container.style.display = "block"; // mostra o conteúdo
+      trocarSlide();
+      intervalId = setInterval(trocarSlide, 7000); // troca a cada 7 segundos
+
+      // corações caindo 💖
       setInterval(() => {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.textContent = "💖";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = Math.random() * 20 + 20 + "px";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 5000);
-}, 300);
-      trocarSlide(); // mostra o primeiro
-      setInterval(trocarSlide, 7000); // troca a cada 7 segundos (você pode mudar pra 5000 se quiser 5s)
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 20 + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 300);
     }
   </script>
-  <audio id="musica" src="musica.mp3"></audio>
 </body>
 </html>
