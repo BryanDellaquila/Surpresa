@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Surpresinha</title>
   <style>
+    .fade {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.visible {
+  opacity: 1;
+}
+
+    .fade {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.visible {
+  opacity: 1;
+}
+
     .heart {
   position: fixed;
   top: -50px;
@@ -83,8 +101,9 @@ button:hover {
 
   <!-- Container que fica escondido até clicar no botão -->
   <div id="container" style="display: none;">
-    <img id="imagem" src="foto1.jpg" alt="Foto do casal">
-    <p id="texto"></p>
+    <img id="imagem" class="fade" src="foto1.jpg" alt="Foto do casal">
+    <p id="texto" class="fade"></p>
+
   </div>
 
   <script>
@@ -121,10 +140,23 @@ button:hover {
     const botao = document.getElementById("botaoComecar");
 
     function trocarSlide() {
-      textoEl.textContent = textos[index];
-      imagemEl.src = imagens[index];
-      index = (index + 1) % textos.length;
-    }
+  // Remove classe de visibilidade (começa fade-out)
+  imagemEl.classList.remove("visible");
+  textoEl.classList.remove("visible");
+
+  // Espera o fade-out terminar
+  setTimeout(() => {
+    textoEl.textContent = textos[index];
+    imagemEl.src = imagens[index];
+
+    // Aplica fade-in
+    imagemEl.classList.add("visible");
+    textoEl.classList.add("visible");
+
+    index = (index + 1) % textos.length;
+  }, 500); // tempo do fade-out
+}
+
 
     function iniciar() {
       document.getElementById("musica").play();
