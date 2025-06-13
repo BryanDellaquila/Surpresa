@@ -5,6 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Surpresinha</title>
   <style>
+    .heart {
+  position: fixed;
+  top: -50px;
+  font-size: 24px;
+  animation: fall 5s linear infinite;
+  color: pink;
+  pointer-events: none;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+    button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #ffffff;
+  color: #6a0dad;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
     body {
       margin: 0;
       padding: 0;
@@ -47,7 +77,12 @@
 </head>
 <body>
   <h1>Surpresinha 💜</h1>
-  <div id="container">
+
+  <!-- Botão que inicia a apresentação -->
+  <button id="botaoComecar" onclick="iniciar()">Começar</button>
+
+  <!-- Container que fica escondido até clicar no botão -->
+  <div id="container" style="display: none;">
     <img id="imagem" src="foto1.jpg" alt="Foto do casal">
     <p id="texto"></p>
   </div>
@@ -82,6 +117,8 @@
     let index = 0;
     const textoEl = document.getElementById("texto");
     const imagemEl = document.getElementById("imagem");
+    const container = document.getElementById("container");
+    const botao = document.getElementById("botaoComecar");
 
     function trocarSlide() {
       textoEl.textContent = textos[index];
@@ -89,8 +126,23 @@
       index = (index + 1) % textos.length;
     }
 
-    trocarSlide(); // Mostra o primeiro
-    setInterval(trocarSlide, 7000); // Troca a cada 5 segundos
+    function iniciar() {
+      document.getElementById("musica").play();
+      botao.style.display = "none"; // esconde botão
+      container.style.display = "block"; // mostra o conteúdo
+      setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 20 + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}, 300);
+      trocarSlide(); // mostra o primeiro
+      setInterval(trocarSlide, 7000); // troca a cada 7 segundos (você pode mudar pra 5000 se quiser 5s)
+    }
   </script>
+  <audio id="musica" src="musica.mp3"></audio>
 </body>
 </html>
